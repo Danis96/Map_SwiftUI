@@ -19,6 +19,8 @@ struct LocationsView: View {
                 .ignoresSafeArea()
             header
                 .padding(.horizontal)
+            
+            
         })
     }
 }
@@ -32,33 +34,47 @@ extension LocationsView {
     private var header: some View {
         VStack(alignment: .leading, content: {
             
-            Button(action: {
-                locationsViewModel.toggleListLocations()
-            }, label: {
-                Text(locationsViewModel.mapLocation.name + " " + locationsViewModel.mapLocation.cityName)
-                    .font(.title3)
-                    .fontWeight(.semibold)
-                    .frame(height: 50)
-                    .animation(.none, value: locationsViewModel.mapLocation)
-                    .frame(maxWidth: .infinity)
-                    .overlay(alignment: .leading) {
-                        Image(systemName: "arrow.down")
-                            .padding()
-                            .rotationEffect(Angle(degrees: locationsViewModel.showListLocations ? 180 : 0))
-                        
-                    }
-                    .background(.regularMaterial)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-            }).foregroundStyle(.primary)
-            
-            
+            headerMenu
             
             if locationsViewModel.showListLocations {
                 LocationListView()
             }
             
             Spacer()
+            
+            ZStack(content: {
+                ForEach(locationsViewModel.locations, content: { location in
+                    if locationsViewModel.mapLocation == location {
+                        LocationPreviewView(location: location)
+                            .transition(AsymmetricTransition(
+                                insertion: .move(edge: .trailing),
+                                removal: .move(edge: .leading)))
+                    }
+                })
+            })
+            
         })
         .shadow(radius: 10, y: 10)
+    }
+    
+    private var headerMenu: some View {
+        Button(action: {
+            locationsViewModel.toggleListLocations()
+        }, label: {
+            Text(locationsViewModel.mapLocation.name + " " + locationsViewModel.mapLocation.cityName)
+                .font(.title3)
+                .fontWeight(.semibold)
+                .frame(height: 50)
+                .animation(.none, value: locationsViewModel.mapLocation)
+                .frame(maxWidth: .infinity)
+                .overlay(alignment: .leading) {
+                    Image(systemName: "arrow.down")
+                        .padding()
+                        .rotationEffect(Angle(degrees: locationsViewModel.showListLocations ? 180 : 0))
+                    
+                }
+                .background(.regularMaterial)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+        }).foregroundStyle(.primary)
     }
 }
