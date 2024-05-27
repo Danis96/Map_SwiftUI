@@ -11,6 +11,7 @@ import MapKit
 struct LocationsView: View {
     
     @EnvironmentObject private var locationsViewModel: LocationsViewModel
+    let maxWidthIpad: CGFloat = 700
     
     var body: some View {
         ZStack(content: {
@@ -21,7 +22,7 @@ struct LocationsView: View {
                 .padding(.horizontal)
         })
         .sheet(item: $locationsViewModel.sheetLocation, onDismiss: nil, content: { location in
-                LocationDetailView(location: location)
+            LocationDetailView(location: location)
         })
     }
 }
@@ -33,12 +34,13 @@ struct LocationsView: View {
 
 extension LocationsView {
     private var header: some View {
-        VStack(alignment: .leading, content: {
+        VStack(content: {
             
             headerMenu
             
             if locationsViewModel.showListLocations {
                 LocationListView()
+                    .frame(maxWidth: maxWidthIpad)
             }
             
             Spacer()
@@ -47,6 +49,8 @@ extension LocationsView {
                 ForEach(locationsViewModel.locations, content: { location in
                     if locationsViewModel.mapLocation == location {
                         LocationPreviewView(location: location)
+                            .frame(maxWidth: maxWidthIpad)
+                            .frame(maxWidth: .infinity)
                             .transition(AsymmetricTransition(
                                 insertion: .move(edge: .trailing),
                                 removal: .move(edge: .leading)))
@@ -67,7 +71,7 @@ extension LocationsView {
                 .fontWeight(.semibold)
                 .frame(height: 50)
                 .animation(.none, value: locationsViewModel.mapLocation)
-                .frame(maxWidth: .infinity)
+                .frame(maxWidth: maxWidthIpad)
                 .overlay(alignment: .leading) {
                     Image(systemName: "arrow.down")
                         .padding()
