@@ -12,15 +12,16 @@ struct LocationsView: View {
     
     @EnvironmentObject private var locationsViewModel: LocationsViewModel
     
-    
     var body: some View {
         ZStack(content: {
-            Map(position: $locationsViewModel.cameraPositions)
+            mapView
                 .ignoresSafeArea()
+            
             header
                 .padding(.horizontal)
-            
-            
+        })
+        .sheet(item: $locationsViewModel.sheetLocation, onDismiss: nil, content: { location in
+                LocationDetailView(location: location)
         })
     }
 }
@@ -76,5 +77,20 @@ extension LocationsView {
                 .background(.regularMaterial)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
         }).foregroundStyle(.primary)
+    }
+    
+    private var mapView: some View {
+        Map(position: $locationsViewModel.cameraPositions) {
+            ForEach(locationsViewModel.locations) { location in
+                Annotation(location.name, coordinate: location.coordinates) {
+                    LocationMapAnnotationView()
+                        .scaleEffect(locationsViewModel.mapLocation == location ? 1 : 0.8)
+                        .shadow(radius: 10)
+                        .onTapGesture(perform: {
+                            locationsViewModel.updateMapLocation(location: location)
+                        })
+                }
+            }
+        }
     }
 }
