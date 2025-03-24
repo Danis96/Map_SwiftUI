@@ -2,7 +2,7 @@
 //  LocationsDataService.swift
 //  MapTest
 //
-//  Created by Nick Sarno on 11/26/21.
+//  Created by Danis Preldzic on 05/27/24.
 //
 
 import Foundation
@@ -65,17 +65,17 @@ class LocationsDataService {
                 "paris-louvre-3",
             ],
             link: "https://en.wikipedia.org/wiki/Louvre"),
-//        Location(
-//            name: "Danisova Zgrada",
-//            cityName: "Zavidovici",
-//            coordinates: CLLocationCoordinate2D(latitude: 44.439818, longitude: 18.145773),
-//            description: "The best building in the world where the best person in the world lived.Lord Danis.",
-//            imageNames: [
-//                "paris-louvre-1",
-//                "paris-louvre-2",
-//                "paris-louvre-3",
-//            ],
-//            link: "https://en.wikipedia.org/wiki/Louvre"),
+        Location(
+            name: "Danisova Zgrada",
+            cityName: "Zavidovici",
+            coordinates: CLLocationCoordinate2D(latitude: 44.439818, longitude: 18.145773),
+            description: "The best building in the world where the best person in the world lived.Lord Danis.",
+            imageNames: [
+                "paris-louvre-1",
+                "paris-louvre-2",
+                "paris-louvre-3",
+            ],
+            link: "https://en.wikipedia.org/wiki/Louvre")
     ]
     
 }
